@@ -3,6 +3,7 @@ import UserIcon from "../assets/user.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "./Loader";
 import { getEmployeeById, removeEmployee } from "../api/api";
+import { toast } from "react-toastify";
 const EmployeeDetails = () => {
   const { emp_id } = useParams();
   const [employee, setEmployee] = useState({
@@ -16,9 +17,11 @@ const EmployeeDetails = () => {
     contact: {
       method: "",
       value: "",
-    },
+    },  
   });
+
   const navigate = useNavigate()
+
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     async function fetch() {
@@ -35,6 +38,10 @@ const EmployeeDetails = () => {
     setLoading(false)
     if(response.status == 200){
       navigate("/")
+      toast.success("Deleted employee");
+    }
+    else{
+      toast.error("Something went wrong");
     }
   }
   if (loading) {
@@ -79,7 +86,6 @@ const EmployeeDetails = () => {
         Remove
       </button>
       </div>
-
     </div>
   );
 };

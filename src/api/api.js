@@ -2,11 +2,11 @@ import axios from 'axios'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 const PID = import.meta.env.VITE_PROJECT_ID
 const ENV_ID = import.meta.env.VITE_ENV_ID
-export const getEmployees = async () => {
+export const getEmployees = async (limit, offset=0) => {
     try {
         const params = new URLSearchParams({
-            'limit': '10',
-            'offset': '0'
+            'limit': `${limit}`,
+            'offset': `${offset}`
         })
         const response = await axios.get(`${API_BASE_URL}`, {
             params: params,
@@ -52,7 +52,6 @@ export const getEmployeeById = async (empId) => {
 
 export const removeEmployee = async (empId) => {
     try {
-        console.log(`${API_BASE_URL}/${empId}`)
         const response = await axios.delete(`${API_BASE_URL}/${empId}`,{
             data: {
             },

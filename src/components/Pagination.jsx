@@ -1,19 +1,41 @@
-import React from 'react'
-const Pagination = ({ page, totalPages, onPageChange }) => {
+import React, {useState, useEffect} from 'react'
+const Pagination = ({ initialOffset, totalItems, fetchData }) => {
+  const [offset, setOffset] = useState(initialOffset);
+  const [total, setTotal] = useState(totalItems);
 
-    let pages = []
-    for(let i = 1; i <= totalPages; i++){
-        pages.push(i)
+  const totalPages = Math.ceil(total / 10);
+  const currentPage = Math.floor(offset / 10) + 1;
+
+  useEffect(() => {
+    fetchData(offset);
+  }, [offset, fetchData]);
+
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setOffset(offset + 10);
     }
+  };
+
+  // Handle previous page
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      setOffset(offset - 10);
+    }
+  };
+
   return (
-    <div className='flex flex-row font-mukta sm:text-lg md:text-xl gap-2'>
-        {pages.map((p) => {
-            return <button onClick={() => {
-              onPageChange(p)
-            }} key={p} className={`${p == page && "bg-gray-300"} rounded-full pt-1 sm:w-8 sm:h-8 md:w-9 md:h-9 text-center`}>{p}</button>
-        })}
+    <div>
+      <div>
+        <button onClick={handlePrevious} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span>Page {currentPage} of {totalPages}</span>
+        <button onClick={handleNext} disabled={currentPage === totalPages}>
+          Next
+        </button>
+      </div>
     </div>
-  )
+  );
 }
 
 export default Pagination

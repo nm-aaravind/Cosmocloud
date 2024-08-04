@@ -1,13 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { removeEmployee as removeEmployeeAPI } from "../api/api";
-const EmployeeCard = ({ employee, newResults, setLoading }) => {
+import { toast } from "react-toastify";
+
+const EmployeeCard = ({ employee, newResults, setLoading, limit, offset }) => {
   async function removeEmployee() {
     setLoading(true)
     const response = await removeEmployeeAPI(employee._id);
     setLoading(false)
     if(response.status == 200){
-      newResults()
+      newResults(limit, offset)
+      toast.success("Deleted employee");
+    }
+    else{
+      toast.error("Something went wrong");
     }
   }
   return (
@@ -19,7 +25,7 @@ const EmployeeCard = ({ employee, newResults, setLoading }) => {
         <div className="mx-auto bg-white  hover:bg-blue-100 transition-colors">
           <div className="px-6 py-4 space-y-1">
             <>
-              <span className="text-md font-extralight min-w-28">Name: </span>
+              <span className="text-md font-extralight">Name: </span>
               {employee.name}
             </>
             <p className="text-gray-700 text-base">

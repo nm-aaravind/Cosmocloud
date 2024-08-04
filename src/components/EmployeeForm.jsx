@@ -23,7 +23,9 @@ const EmployeeForm = () => {
     },
   });
   const { errors } = formState;
+
   const watchContactMethod = watch("contact.method");
+  
   async function formSubmit(data) {
     setSubmitting(true)
     const upload = await createEmployee(data);
@@ -31,17 +33,18 @@ const EmployeeForm = () => {
       setSubmitting(false)
       reset()
       navigate(`/details/${upload.data.id}`)
+      toast.success("Created employee");
     }
     else{
       setSubmitting(false)
-
+      toast.error("Something went wrong");
     }
   }
   if(submitting){
     return <Loader />
   }
   return (
-    <div className="p-7 rounded-lg sm:w-full md:w-3/4 m-auto">
+    <div className="p-7 rounded-lg sm:w-full md:w-3/4 m-auto font-light">
       <h1 className="text-center font-extralight sm:text-2xl sm:mb-5 lg:text-4xl lg:mb-7">
         Enter employee details
       </h1>
@@ -51,7 +54,7 @@ const EmployeeForm = () => {
         className="space-y-8 sm:w-full md:w-3/4 m-auto"
       >
         <div>
-          <label for="name" className="block text-md font-medium text-gray-700">
+          <label htmlFor="name" className="block text-md text-gray-700">
             Name
           </label>
           <input
@@ -68,7 +71,7 @@ const EmployeeForm = () => {
           )}
         </div>
         <div>
-          <label for="address" className="block text-md font-medium text-gray-700">
+          <label htmlFor="address" className="block text-md text-gray-700">
             Address Line
           </label>
           <input
@@ -85,7 +88,7 @@ const EmployeeForm = () => {
           )}
         </div>
         <div>
-          <label for="city" className="block text-md font-medium text-gray-700">
+          <label htmlFor="city" className="block text-md text-gray-700">
             City
           </label>
           <input
@@ -102,7 +105,7 @@ const EmployeeForm = () => {
           )}
         </div>
         <div>
-          <label for="country" className="block text-md font-medium text-gray-700">
+          <label htmlFor="country" className="block text-md text-gray-700">
             Country
           </label>
           <input
@@ -119,7 +122,7 @@ const EmployeeForm = () => {
           )}
         </div>
         <div>
-          <label for="zipcode" className="block text-md font-medium text-gray-700">
+          <label htmlFor="zipcode" className="block text-md text-gray-700">
             Zipcode
           </label>
           <input
@@ -142,7 +145,7 @@ const EmployeeForm = () => {
           )}
         </div>
         <div className="relative">
-          <label className="block text-md font-medium text-gray-700">
+          <label className="block text-md font-light text-gray-700">
             Preferred Contact Method
           </label>
           <div className="mt-2 flex items-center space-x-4">
@@ -176,8 +179,8 @@ const EmployeeForm = () => {
         {watchContactMethod && (
           <div>
             <label
-              for="zipcode"
-              className="block text-md font-medium text-gray-700"
+              htmlFor="zipcode"
+              className="block text-md text-gray-700"
             >
               {watchContactMethod}
             </label>
